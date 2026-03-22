@@ -1,4 +1,5 @@
 const express = require('express');
+const { default: todoSchema } = require('./validation');
 
 const app = express();
 const port = 3000;
@@ -17,7 +18,10 @@ app.get("/todo", (req, res) => {
 })
 
 app.post("/todo", (req, res) => {
-    const data = req.body;
+    const result = todoSchema.safeParse(req.body);
+    if(!result.success) {
+        res.status(400).json({error: result.error});
+    }
 
     const newTodo = {
         id: todoDB.length + 1,
