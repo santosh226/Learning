@@ -1,0 +1,194 @@
+===============================
+JAVASCRIPT INTERVIEW NOTES
+===============================
+
+1. What is JavaScript?
+
+JavaScript is a high-level, interpreted, dynamically typed, single-threaded programming language used to build interactive and dynamic web applications. It runs in browsers and also on servers using Node.js.
+
+--------------------------------
+
+2. Data Types in JavaScript (Primitive vs Non-Primitive)
+
+Primitive Data Types:
+- Number
+- String
+- Boolean
+- Undefined
+- Null
+- BigInt
+- Symbol
+
+-> Stored by value (directly in memory)
+
+Non-Primitive (Reference Types):
+- Object
+- Array
+- Function
+
+-> Stored by reference (memory address)
+
+--------------------------------
+
+3. Difference between undefined and null
+
+undefined:
+- Assigned automatically by JavaScript
+- Variable declared but not assigned
+
+null:
+- Assigned intentionally by developer
+- Represents empty or no value
+
+Example:
+let a;        // undefined
+let b = null; // null
+
+--------------------------------
+
+4. Difference between var, let, const
+
+var:
+- Function scoped
+- Can be redeclared and reassigned
+- Hoisted with undefined
+
+let:
+- Block scoped
+- Cannot be redeclared
+- Can be reassigned
+- Hoisted but in TDZ
+
+const:
+- Block scoped
+- Cannot be redeclared or reassigned
+- Hoisted but in TDZ
+
+--------------------------------
+
+5. Difference between == and ===
+
+== (Loose Equality):
+- Compares value only
+- Performs type coercion
+
+=== (Strict Equality):
+- Compares value and type
+- No type coercion
+
+Example:
+5 == "5"   -> true
+5 === "5"  -> false
+
+--------------------------------
+
+6. What is Hoisting?
+
+Hoisting is JavaScript’s behavior of moving variable and function declarations to the top of their scope during the memory creation phase.
+
+- var -> initialized as undefined
+- let/const -> not initialized (TDZ)
+- functions -> fully hoisted
+
+--------------------------------
+
+7. NaN (Not-a-Number)
+
+NaN is a special value that represents an invalid number.
+
+Example:
+Number("abc") -> NaN
+0/0 -> NaN
+
+Important:
+NaN !== NaN
+
+Check:
+Number.isNaN(value)
+
+--------------------------------
+
+8. Truthy and Falsy Values
+
+Falsy values:
+false, 0, -0, 0n, "", null, undefined, NaN
+
+Truthy values:
+Everything else ([], {}, "0", "false", etc.)
+
+--------------------------------
+
+9. Function in JavaScript
+
+A function is a reusable block of code that performs a specific task.
+
+--------------------------------
+
+10. Function Declaration vs Function Expression
+
+Function Declaration:
+function greet() {}
+- Fully hoisted
+- Can call before declaration
+
+Function Expression:
+const greet = function() {}
+- Not hoisted (TDZ)
+- Cannot call before declaration
+
+--------------------------------
+
+11. Arrow Functions
+
+Short syntax for functions (ES6)
+
+Example:
+const add = (a, b) => a + b;
+
+Advantages:
+- Short syntax
+- Implicit return
+- Lexical this
+
+Limitations:
+- No own this
+- Cannot be constructor
+- No arguments object
+
+--------------------------------
+
+12. this keyword
+
+this refers to the object executing the function.
+
+- Global -> window/global
+- Regular function -> depends on call
+- Object method -> object itself
+- Arrow function -> inherits from parent scope
+
+--------------------------------
+
+13. Closure
+
+A closure is a function that remembers variables from its outer scope even after the outer function has finished execution.
+
+Used for:
+- Data privacy
+- Maintaining state
+
+--------------------------------
+
+14. Callback Function
+
+A callback is a function passed as an argument to another function and executed later.
+
+Example:
+function greet(name, cb) {
+  console.log(name);
+  cb();
+}
+
+--------------------------------
+
+END OF NOTES
+===============================
