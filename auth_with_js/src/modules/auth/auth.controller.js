@@ -17,7 +17,9 @@ const refreshToken = async (req, res) => {
 }
 
 const logout = async (req, res) => {
-
+    await logout(req.user.id);
+    res.clearCookie("refreshToken");
+    ApiResponse.ok(res, "Logout successfull");
 }
 
 export {
