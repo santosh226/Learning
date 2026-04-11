@@ -16,8 +16,13 @@ const refreshToken = async (req, res) => {
     ApiResponse(res, "Token refresh successfully", accessToken);
 }
 
+const logout = async (req, res) => {
+
+}
+
 export {
     register,
     login,
-    refreshToken
+    refreshToken,
+    logout
 };
