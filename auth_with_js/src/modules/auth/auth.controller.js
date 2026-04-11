@@ -1,5 +1,5 @@
 import ApiResponse from "../../common/utils/api-response";
-import { createUser, login } from "./auth.service";
+import { createUser, login, refreshToken } from "./auth.service";
 
 const register = async (req, res) => {
     const user = await createUser(req.body);
@@ -11,7 +11,13 @@ const login = async (req, res) => {
     ApiResponse.ok(res, "User login successfully", user);
 }
 
+const refreshToken = async (req, res) => {
+    const { accessToken } = await refreshToken(req.cookies?.refreshToken);
+    ApiResponse(res, "Token refresh successfully", accessToken);
+}
+
 export {
     register,
-    login
+    login,
+    refreshToken
 };
