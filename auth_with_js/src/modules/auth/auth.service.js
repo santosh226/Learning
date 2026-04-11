@@ -81,9 +81,16 @@ const logout = async (userId) => {
     await User.findByIdAndUpdate(userId, {refreshToken: null});
 };
 
+const profile = async(userId) => {
+    const user = await User.findById(userId);
+    if(!user) throw ApiError.notFound("User not found");
+    return user;
+}
+
 export {
     createUser,
     login,
     refreshToken,
     logout,
+    profile
 };
