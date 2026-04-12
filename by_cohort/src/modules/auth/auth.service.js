@@ -13,8 +13,7 @@ import {
 } from "../../common/config/email.js";
 
 // Hash refresh token before storing — same approach as reset tokens
-const hashToken = (token) =>
-  crypto.createHash("sha256").update(token).digest("hex");
+const hashToken = (token) => crypto.createHash("sha256").update(token).digest("hex");
 
 const register = async ({ name, email, password, role }) => {
   const existing = await User.findOne({ email });

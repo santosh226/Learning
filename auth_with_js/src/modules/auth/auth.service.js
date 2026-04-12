@@ -2,11 +2,11 @@ import crypto from "crypto";
 import { sendVerificationEmail } from "../../common/config/email.js";
 import ApiError from "../../common/utils/api-error.js";
 import User from "./auth.models.js";
-import { generateAccessToken, generateResetToken, verifyRefreshToken } from "../../common/utils/jwt.utils.js";
+import { generateAccessToken, generateRefreshToken, generateResetToken, verifyRefreshToken } from "../../common/utils/jwt.utils.js";
 
 const hashToken = (token) => {
-    crypto.createHash("sha256").update(token).digest("hex");
-}
+   return crypto.createHash("sha256").update(token).digest("hex");
+};
 
 const createUser = async({name, email, password, role}) => {
     const isUserExist = await User.findOne({email});
@@ -47,7 +47,7 @@ const login = async ({email, password}) => {
     }
 
     const accessToken = generateAccessToken({id: user._id, role: user.role});
-    const refreshToken = generateResetToken({id: user._id});
+    const refreshToken = generateRefreshToken({id: user._id});
 
     user.refreshToken = hashToken(refreshToken);
     await user.save({validateBeforeSave: false});
@@ -81,16 +81,29 @@ const logout = async (userId) => {
     await User.findByIdAndUpdate(userId, {refreshToken: null});
 };
 
+const verifyEmail = async (token) => {
+    const hashedToken = hashToken(token);
+    const user = await User.findOne({verificationToken: hashedToken});
+    if(!user) throw ApiError.notFound("Invalid or expired verification token");
+    user.isVerified = true;
+    user.verificationToken = undefined;
+    await user.save({validateBeforeSave: false});
+    return user;
+};
+
+
+
 const profile = async(userId) => {
     const user = await User.findById(userId);
     if(!user) throw ApiError.notFound("User not found");
     return user;
-}
+};
 
 export {
     createUser,
     login,
     refreshToken,
     logout,
-    profile
+    profile,
+    verifyEmail
 };
