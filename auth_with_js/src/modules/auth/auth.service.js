@@ -91,8 +91,6 @@ const verifyEmail = async (token) => {
     return user;
 };
 
-
-
 const profile = async(userId) => {
     const user = await User.findById(userId);
     if(!user) throw ApiError.notFound("User not found");

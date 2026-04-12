@@ -31,6 +31,11 @@ const logout = async (req, res) => {
     ApiResponse.ok(res, "Logout successfull");
 }
 
+const verifyEmail = async (req, res) => {
+    const user = await authService.verifyEmail(req.params.token);
+    ApiResponse.ok(res, "Email verified successfully", user);
+}
+
 const profile = async(req, res) => {
     const user = await authService.profile(req.user.id);
     ApiResponse.ok(res, "User profile", user);
@@ -41,5 +46,6 @@ export {
     login,
     refreshToken,
     logout,
-    profile
+    profile,
+    verifyEmail
 };
