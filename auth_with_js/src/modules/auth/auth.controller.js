@@ -42,8 +42,9 @@ const forgetPassword = async (req, res) => {
     ApiResponse.ok(res, "Password reset email sent");
 }
 
-const resetPassword = async () => {
-
+const resetPassword = async (req, res) => {
+    await authService.resetPassword(req.params.token, req.body.password);
+    ApiResponse.ok(res, "Password reset successfully");
 }
 
 const profile = async(req, res) => {

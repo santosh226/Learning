@@ -105,7 +105,24 @@ const forgotPassword = async (email) => {
     } catch (error) {
         console.error("Failed to send reset email: ", error.message);
     };
-;}
+};
+
+const resetPassword = async(token, password) => {
+    const hashedToken = hash(token);
+
+ const user = await User.findOne({
+    resetPasswordToken: hashedToken,
+    resetPasswordExpires: { $gt: Date.now() },
+  }).select("+resetPasswordToken +resetPasswordExpires");
+
+  if(!user) throw ApiError.badRequest("Invalid or expire reset token");
+
+  user.password = password;
+  user.resetPasswordExpires = undefined;
+  user.resetPasswordToken = undefined;
+
+  await user.save();
+}
 
 const profile = async(userId) => {
     const user = await User.findById(userId);
@@ -121,4 +138,5 @@ export {
     profile,
     verifyEmail,
     forgotPassword,
+    resetPassword
 };
