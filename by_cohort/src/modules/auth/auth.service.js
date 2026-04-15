@@ -2,10 +2,7 @@ import crypto from "crypto";
 import User from "./auth.model.js";
 import ApiError from "../../common/utils/api-error.js";
 import {
-  generateAccessToken,
-  generateRefreshToken,
-  verifyRefreshToken,
-  generateResetToken,
+  generateAccessToken, generateRefreshToken, verifyRefreshToken, generateResetToken,
 } from "../../common/utils/jwt.utils.js";
 import {
   sendVerificationEmail,
@@ -137,6 +134,7 @@ const forgotPassword = async (email) => {
   }
 };
 
+//resetPasword
 const resetPassword = async (token, newPassword) => {
   const hashedToken = hashToken(token);
 
@@ -153,6 +151,7 @@ const resetPassword = async (token, newPassword) => {
   await user.save();
 };
 
+//getMe
 const getMe = async (userId) => {
   const user = await User.findById(userId);
   if (!user) throw ApiError.notFound("User not found");

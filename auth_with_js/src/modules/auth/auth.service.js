@@ -91,6 +91,22 @@ const verifyEmail = async (token) => {
     return user;
 };
 
+const forgotPassword = async (email) => {
+    const user = await findOne({email});
+    if(!user) ApiError.notFound("No user found with this email");
+
+    const {rawToken, hashedToken} = generateResetToken();
+
+    user.resetPasswordToken = hashedToken;
+    user.resepasswordExpires = Date.now() + 15 * 60 * 1000;
+
+    try {
+        await sendVerificationEmail(email, rawToken)   
+    } catch (error) {
+        console.error("Failed to send reset email: ", error.message);
+    };
+;}
+
 const profile = async(userId) => {
     const user = await User.findById(userId);
     if(!user) throw ApiError.notFound("User not found");
@@ -103,5 +119,6 @@ export {
     refreshToken,
     logout,
     profile,
-    verifyEmail
+    verifyEmail,
+    forgotPassword,
 };

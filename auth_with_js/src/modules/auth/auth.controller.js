@@ -1,3 +1,4 @@
+import { application } from "express";
 import ApiResponse from "../../common/utils/api-response.js";
 import * as authService from "./auth.service.js";
 
@@ -36,6 +37,15 @@ const verifyEmail = async (req, res) => {
     ApiResponse.ok(res, "Email verified successfully", user);
 }
 
+const forgetPassword = async (req, res) => {
+    await authService.forgotPassword(req.body.email);
+    ApiResponse.ok(res, "Password reset email sent");
+}
+
+const resetPassword = async () => {
+
+}
+
 const profile = async(req, res) => {
     const user = await authService.profile(req.user.id);
     ApiResponse.ok(res, "User profile", user);
@@ -47,5 +57,7 @@ export {
     refreshToken,
     logout,
     profile,
-    verifyEmail
+    verifyEmail,
+    forgetPassword,
+    resetPassword
 };
