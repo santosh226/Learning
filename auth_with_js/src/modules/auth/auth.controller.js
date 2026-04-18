@@ -55,7 +55,8 @@ const profile = async(req, res) => {
 
 const uploadAvatar = async (req, res) => {
     if(!req.file) throw ApiError.badRequest("Please upload avatar");
-    const avatar_data = await authService.uploadAvatar(req.user.id, req.file.path);
+    console.log(req.user);
+    const avatar_data = await authService.uploadAvatar(req.user.id, req.file);
     ApiResponse.created(res, "User avatar uploaded successfully", avatar_data);
 }
 

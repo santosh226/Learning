@@ -3,6 +3,8 @@ import { sendVerificationEmail } from "../../common/config/email.js";
 import ApiError from "../../common/utils/api-error.js";
 import User from "./auth.models.js";
 import { generateAccessToken, generateRefreshToken, generateResetToken, verifyRefreshToken } from "../../common/utils/jwt.utils.js";
+import client from "../../common/config/imagekit.js";
+import fs from "node:fs";
 
 const hashToken = (token) => {
    return crypto.createHash("sha256").update(token).digest("hex");
@@ -130,8 +132,37 @@ const profile = async(userId) => {
     return user;
 };
 
-const uploadAvatar = async(userId, file_path) => {
+const uploadAvatar = async(userId, file) => {
+    try {
+        const user = await User.findById(user.id);
+        const response = await client.files.upload({
+            file: fs.createReadStream(file.path),
+            fileName: file.filename,
+        })
 
+        user.findByIdAndUpdate(
+            user._id,
+            {avatar: response.url},
+            {new: true}
+        )
+
+        fs.unlinkSync(file.path)
+
+        return {
+            url: response.url,
+            fileId: response.fileId
+        }
+    } catch (error) {
+        try {
+            if(file.path && fs.existsSync(file.path)) {
+                fs.unlinkSync(file.path);
+            }
+        } catch (error) {
+            console.error("Error while deleting temp file:", error)
+        }
+
+        throw error;
+    }
 }
 
 export {

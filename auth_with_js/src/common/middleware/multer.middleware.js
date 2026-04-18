@@ -18,9 +18,9 @@ const fileFilter = (req, file, cb) => {
   const allowed = ["image/png", "image/jpeg", "image/gif", "image/webp"];
   if(allowed.includes(file.mimetype)) {
     cb(null, true);
+  } else {
+    cb(new Error("File type not supported"), false);
   }
-
-  cb(new Error("File type not supported"), false);
 };
 
 
