@@ -1,6 +1,6 @@
-import ApiError from "../../common/utils/api-error";
-import { verifyAccessToken } from "../../common/utils/jwt.utils";
-import User from "../../common/utils/jwt.utils.js";
+import ApiError from "../../common/utils/api-error.js";
+import { verifyAccessToken } from "../../common/utils/jwt.utils.js";
+import User from "./auth.models.js"
 
 const authenitcate = async (req, res, next) => {
     let token;

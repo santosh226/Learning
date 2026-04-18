@@ -31,6 +31,12 @@ const userSchema = new mongoose.Schema(
             type: Boolean,
             default: false,
         },
+
+        avatar: {
+            type: String,
+            default: false
+        },
+        
         verificationToken: { type: String, select: false },
         refreshToken: { type: String, select: false },
         resetPasswordToken: { type: String, select: false },

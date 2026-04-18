@@ -130,6 +130,10 @@ const profile = async(userId) => {
     return user;
 };
 
+const uploadAvatar = async(userId, file_path) => {
+
+}
+
 export {
     createUser,
     login,
@@ -138,5 +142,6 @@ export {
     profile,
     verifyEmail,
     forgotPassword,
-    resetPassword
+    resetPassword,
+    uploadAvatar
 };

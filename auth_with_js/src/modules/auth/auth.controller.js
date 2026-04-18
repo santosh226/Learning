@@ -1,6 +1,7 @@
 import { application } from "express";
 import ApiResponse from "../../common/utils/api-response.js";
 import * as authService from "./auth.service.js";
+import ApiError from "../../common/utils/api-error.js";
 
 const register = async (req, res) => {
     const user = await authService.createUser(req.body);
@@ -52,6 +53,12 @@ const profile = async(req, res) => {
     ApiResponse.ok(res, "User profile", user);
 }
 
+const uploadAvatar = async (req, res) => {
+    if(!req.file) throw ApiError.badRequest("Please upload avatar");
+    const avatar_data = await authService.uploadAvatar(req.user.id, req.file.path);
+    ApiResponse.created(res, "User avatar uploaded successfully", avatar_data);
+}
+
 export {
     register,
     login,
@@ -60,5 +67,6 @@ export {
     profile,
     verifyEmail,
     forgetPassword,
-    resetPassword
+    resetPassword,
+    uploadAvatar
 };
