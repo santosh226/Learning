@@ -54,5 +54,6 @@ const login = async () => {
 
 export {
     register,
-    login
+    login,
+    verifyEmail
 }

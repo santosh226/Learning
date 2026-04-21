@@ -1,5 +1,5 @@
 import express from 'express';
-import ApiError from './common/utils/api-error';
+import ApiError from './common/utils/api-error.js';
 
 const app = express();
 
