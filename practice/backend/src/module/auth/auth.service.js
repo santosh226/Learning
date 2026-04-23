@@ -1,4 +1,4 @@
-import User from "./auth.models.js";
+import User from "./auth.model.js";
 import ApiError from "../../common/utils/api-error.js";
 import { generateAccessToken, generateRefreshToken, generateResetToken } from "../../common/utils/jwt.utils.js";
 import { sendVerificationEmail } from "../../common/config/email.js";
@@ -66,6 +66,10 @@ const login = async ({email, password}) => {
     const userObj = user.toObject();
 
     return {user: userObj, accessToken, refreshToken};
+}
+
+const logout = async (userId) => {
+    await User.findByIdAndUpdate(userId, {refreshToken: null});
 }
 
 export {
