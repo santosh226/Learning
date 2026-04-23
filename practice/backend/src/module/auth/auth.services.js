@@ -1,7 +1,7 @@
-import User from "../models/auth.models.js";
-import ApiError from "../../../common/utils/api-error.js";
-import { generateResetToken } from "../../../common/utils/jwt.utils.js";
-import { sendVerificationEmail } from "../../../common/config/email.js";
+import User from "./auth.models.js";
+import ApiError from "../../common/utils/api-error.js";
+import { generateAccessToken, generateRefreshToken, generateResetToken } from "../../common/utils/jwt.utils.js";
+import { sendVerificationEmail } from "../../common/config/email.js";
 
 const hashToken = (token) => {
     return crypto.createHash("sha256").update(token).digest("hex");
@@ -48,8 +48,24 @@ const verifyEmail = async (token) => {
     return user;
 }
 
-const login = async () => {
+const login = async ({email, password}) => {
+    const user = await User.findOne({email});
+    if(!user) throw ApiError.notFound(`User not exist with this email: ${email}`);
+
+    if(!user.isVerified) throw ApiError.unauthorized("Verify your email before login");
     
+    const isPasswordCorrect = await user.comparePassword(password);
+    if(!isPasswordCorrect) throw ApiError.badRequest("Invalid password");
+
+    const accessToken = generateAccessToken({idL: user._id, role: user.role});
+    const refreshToken = generateRefreshToken({id: user._id});
+
+    user.refreshToken = hashToken(refreshToken);
+    user.save({validateBeforeSave: false});
+
+    const userObj = user.toObject();
+
+    return {user: userObj, accessToken, refreshToken};
 }
 
 export {
