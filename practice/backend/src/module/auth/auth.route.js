@@ -8,6 +8,7 @@ import { authenticate } from "./auth.middleware.js";
 const router = Router();
 
 router.post("/register", validate(RegisterDto), controller.register);
+router.post("/verify-email/:token", controller.verifyEmail);
 router.post("/login", validate(LoginDto), controller.login);
 router.post("/logout", authenticate, controller.logout);
 

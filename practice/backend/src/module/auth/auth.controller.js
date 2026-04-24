@@ -8,6 +8,11 @@ const register = async (req, res) => {
         ApiResponse.ok(res, "User registered Succecfully", user);
 }
 
+const verifyEmail = async (req, res) => {
+    const user = await AuthService.verifyEmail(req.params.token);
+    ApiResponse.ok(res, "Email verified successfully", user);
+}
+
 const login = async (req, res) => {
     const {accessToken, refreshToken, user} = await AuthService.login(req.body);
 
